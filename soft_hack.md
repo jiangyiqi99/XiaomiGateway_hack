@@ -90,3 +90,20 @@ Password is empty
 
 
 [Enable telnet on Aqara G3 hub](https://github.com/Wh1terat/aQRootG3)
+
+
+This gateway has much more potential that you may think. I’ve been working with this device last few weeks and have something to share with community. Ok, first of all here is how to get root access without disassembling. Just send this command via MIIO protocol:
+
+
+{"id":0,"method":"enable_telnet_service", "params":[]}
+then you can telnet on it, use login “admin” or “app”. no password.
+
+How to send message via MIIO: you need device token. There are a lot of methods you can find on internet how to do this, I used this one: download and install modified MiHome
+https://ru.kapiba.ru/mihome/files/old/MiHome_5.6.93_63033_vevs.apk 452
+Authorise, click on “Mi Smart Home Hub”, thee dots, Additional Settings, Network info. Here you will find token at the very bottom.
+Then use this tool https://github.com/skysilver-lab/php-miio 542 to send miio message to device:
+
+php miio-cli.php  --ip $ip --token $token --sendcmd '{"id":0,"method":"enable_telnet_service", "params":[]}'
+now you have telnet enabled.
+
+There is a mosquito broker running and all internal communication is running via mqtt messages. I was able to integrate all my devices with HA with help of NodeRed and simple workflow.
